@@ -20,13 +20,15 @@
     }
 
     /* ── MASTHEAD ── */
-    .masthead {
-      padding: 2.5rem 3rem 0;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: end;
-      gap: 1rem;
-    }
+   .masthead {
+  padding: 2.5rem 3rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 1rem;
+  min-width: 0;
+  overflow: hidden;
+}
 
     .meta {
       font-family: 'DM Mono', monospace;
@@ -322,7 +324,7 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 760px) {
+    @media (max-width: 900px) {
       .masthead         { grid-template-columns: 1fr; padding: 1.5rem; }
       .meta.right       { text-align: left; }
       .tab-nav          { padding: 0 1.5rem; }
