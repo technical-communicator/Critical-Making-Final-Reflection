@@ -17,18 +17,20 @@
       font-family: 'Newsreader', Georgia, serif;
       font-size: 16px;
       line-height: 1.7;
+      overflow-x: hidden;
     }
 
     /* ── MASTHEAD ── */
-   .masthead {
-  padding: 2.5rem 3rem 0;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: end;
-  gap: 1rem;
-  min-width: 0;
-  overflow: hidden;
-}
+    .masthead {
+      padding: 2.5rem 3rem 0;
+    }
+
+    .masthead-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+    }
 
     .meta {
       font-family: 'DM Mono', monospace;
@@ -37,14 +39,15 @@
       text-transform: uppercase;
       color: #888;
       line-height: 2;
+      flex-shrink: 0;
     }
     .meta.right { text-align: right; }
 
-    .title { text-align: center; }
+    .title { text-align: center; flex: 1; min-width: 0; }
     .title h1 {
       font-family: 'DM Mono', monospace;
       font-weight: 500;
-      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      font-size: clamp(1.4rem, 3.5vw, 3.5rem);
       letter-spacing: -0.04em;
       text-transform: uppercase;
       line-height: 1;
@@ -58,15 +61,14 @@
       margin-top: 0.5rem;
     }
 
-    .rule-heavy { grid-column: 1/-1; height: 3px; background: #000; margin-top: 1.25rem; }
-    .rule-thin  { grid-column: 1/-1; height: 1px; background: #000; margin-top: 3px; }
+    .rule-heavy { height: 3px; background: #000; margin-top: 1.25rem; }
+    .rule-thin  { height: 1px; background: #000; margin-top: 3px; }
 
     /* ── TAB NAV ── */
     .tab-nav {
       display: flex;
       border-bottom: 1px solid #000;
       padding: 0 3rem;
-      gap: 0;
     }
 
     .tab-btn {
@@ -84,11 +86,8 @@
       position: relative;
       bottom: -1px;
     }
-
     .tab-btn:first-child { border-left: 1px solid #000; }
-
     .tab-btn:hover { color: #000; }
-
     .tab-btn.active {
       color: #000;
       background: #fff;
@@ -100,9 +99,7 @@
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* ── PORTFOLIO PANEL ── */
-
-    /* Lede */
+    /* ── LEDE ── */
     .lede {
       padding: 2.5rem 3rem;
       display: grid;
@@ -115,9 +112,7 @@
     .lede-text {
       font-size: 1rem;
       line-height: 1.8;
-      max-width: 68ch;
     }
-
     .lede-text p + p { margin-top: 0.9rem; }
 
     .toc { border-left: 1px solid #000; padding-left: 1.5rem; }
@@ -152,11 +147,11 @@
     .toc a span { color: #bbb; font-size: 0.6rem; }
     .toc a:hover span { color: #aaa; }
 
-    /* Cards */
+    /* ── CARDS ── */
     .card-grid {
       padding: 2.5rem 3rem;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr));
       gap: 1.5rem;
     }
 
@@ -267,7 +262,7 @@
       white-space: nowrap;
     }
 
-    /* ── REFLECTION PANEL ── */
+    /* ── REFLECTION ── */
     .reflection {
       max-width: 72ch;
       margin: 0 auto;
@@ -294,18 +289,7 @@
     }
 
     .reflection p + p { margin-top: 1.5rem; }
-
     .reflection em { font-style: italic; }
-
-    .reflection-intro {
-      font-style: italic;
-      font-size: 1.1rem;
-      line-height: 1.75;
-      border-left: 3px solid #000;
-      padding-left: 1.25rem;
-      margin-bottom: 2.5rem;
-      color: #222;
-    }
 
     /* ── FOOTER ── */
     footer {
@@ -325,15 +309,16 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .masthead         { grid-template-columns: 1fr; padding: 1.5rem; }
-      .meta.right       { text-align: left; }
-      .tab-nav          { padding: 0 1.5rem; }
-      .lede             { grid-template-columns: 1fr; padding: 1.5rem; }
-      .lede-text        { border: none; }
-      .toc              { border-left: none; padding-left: 0; border-top: 1px solid #000; padding-top: 1rem; }
-      .card-grid        { padding: 1.5rem; grid-template-columns: 1fr; gap: 1rem; }
-      .reflection       { padding: 2rem 1.5rem 3rem; }
-      footer            { flex-direction: column; gap: 0.25rem; padding: 1rem 1.5rem; }
+      .masthead       { padding: 1.5rem 1.5rem 0; }
+      .masthead-row   { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .meta.right     { text-align: left; }
+      .title          { text-align: left; }
+      .tab-nav        { padding: 0 1.5rem; }
+      .lede           { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
+      .toc            { border-left: none; padding-left: 0; border-top: 1px solid #000; padding-top: 1rem; }
+      .card-grid      { padding: 1.5rem; gap: 1rem; }
+      .reflection     { padding: 2rem 1.5rem 3rem; }
+      footer          { flex-direction: column; gap: 0.25rem; padding: 1rem 1.5rem; }
     }
 
   </style>
@@ -342,19 +327,21 @@
 
 <!-- MASTHEAD -->
 <div class="masthead">
-  <div class="meta">
-    <div>MA Technical Communication</div>
-    <div>Critical Making in the Humanities</div>
-    <div>Spring 2026</div>
-  </div>
-  <div class="title">
-    <h1>Critical Making</h1>
-    <div class="sub">A Semester of Making &nbsp;·&nbsp; Zachary Miller</div>
-  </div>
-  <div class="meta right">
-    <div>Portfolio &amp; Reflection</div>
-    <div>University of Central Florida</div>
-    <div>April 2026</div>
+  <div class="masthead-row">
+    <div class="meta">
+      <div>MA Technical Communication</div>
+      <div>Critical Making in the Humanities</div>
+      <div>Spring 2026</div>
+    </div>
+    <div class="title">
+      <h1>Critical Making</h1>
+      <div class="sub">A Semester of Making &nbsp;·&nbsp; Zachary Miller</div>
+    </div>
+    <div class="meta right">
+      <div>Portfolio &amp; Reflection</div>
+      <div>University of Central Florida</div>
+      <div>April 2026</div>
+    </div>
   </div>
   <div class="rule-heavy"></div>
   <div class="rule-thin"></div>
@@ -366,12 +353,9 @@
   <button class="tab-btn" onclick="switchTab('reflection', this)">Final Reflection</button>
 </nav>
 
-<!-- ══════════════════════════════════════
-     PORTFOLIO TAB
-     ══════════════════════════════════════ -->
+<!-- PORTFOLIO TAB -->
 <div id="portfolio" class="tab-panel active">
 
-  <!-- LEDE -->
   <section class="lede">
     <div class="lede-text">
       <p>This portfolio documents eight exercises completed across a semester of critical making, a course that asked what it means to construct an argument not just in prose but through process, material, and form. The work spans 35mm film photography and clay sculpture, GIF-making, interactive maps, hypertext narrative, game design, generative grammar, and data visualization. Each exercise was an attempt to take a theoretical frame seriously enough to build something from it.</p>
@@ -390,10 +374,8 @@
     </nav>
   </section>
 
-  <!-- CARDS -->
   <section class="card-grid">
 
-    <!-- 01 -->
     <article class="card" id="week1">
       <div class="card-header">
         <div class="card-week">Week 01 &nbsp;·&nbsp; Digital Alterations &amp; Ceramic Sculpture</div>
@@ -419,7 +401,6 @@
       </div>
     </article>
 
-    <!-- 03 -->
     <article class="card" id="week3">
       <div class="card-header">
         <div class="card-week">Week 03 &nbsp;·&nbsp; GIF Making</div>
@@ -446,7 +427,6 @@
       </div>
     </article>
 
-    <!-- 04 -->
     <article class="card" id="week4">
       <div class="card-header">
         <div class="card-week">Week 04 &nbsp;·&nbsp; Critical Mapping</div>
@@ -473,7 +453,6 @@
       </div>
     </article>
 
-    <!-- 05 -->
     <article class="card" id="week5">
       <div class="card-header">
         <div class="card-week">Week 05 &nbsp;·&nbsp; Twine / Hypertext Narrative</div>
@@ -498,7 +477,6 @@
       </div>
     </article>
 
-    <!-- 06 -->
     <article class="card" id="week6">
       <div class="card-header">
         <div class="card-week">Week 06 &nbsp;·&nbsp; Bitsy Game</div>
@@ -523,7 +501,6 @@
       </div>
     </article>
 
-    <!-- 07 -->
     <article class="card" id="week7">
       <div class="card-header">
         <div class="card-week">Week 07 &nbsp;·&nbsp; Tracery Grammar</div>
@@ -549,7 +526,6 @@
       </div>
     </article>
 
-    <!-- 08 -->
     <article class="card" id="week8">
       <div class="card-header">
         <div class="card-week">Week 08 &nbsp;·&nbsp; Distant Reading &amp; Data Viz</div>
@@ -575,7 +551,6 @@
       </div>
     </article>
 
-    <!-- 09 -->
     <article class="card" id="week9">
       <div class="card-header">
         <div class="card-week">Week 09 &nbsp;·&nbsp; Web Interface &amp; GitHub</div>
@@ -601,11 +576,9 @@
     </article>
 
   </section>
-</div><!-- end portfolio tab -->
+</div>
 
-<!-- ══════════════════════════════════════
-     REFLECTION TAB
-     ══════════════════════════════════════ -->
+<!-- REFLECTION TAB -->
 <div id="reflection" class="tab-panel">
   <article class="reflection">
 
@@ -615,12 +588,12 @@
 
     <p>The Main Streets project illustrated just how important intent is when working with AI coding agents. When Claude's suggested fixes made the problem worse rather than better, I had to understand enough of what was happening to redirect it and then verify that what came back actually worked. That process required me to stay engaged with the technical decisions rather than defer to the tool. I think that is the more honest version of working with AI: not avoiding it, but staying close enough to the problem that you can tell when the output is wrong.</p>
 
-    <p>The exercises I am most interested in continuing are the ones connected to data analysis and visualization. Treating the Federal Trade Commission complaints as a text dataset and building a term explorer to compare how harm gets framed across cases gave me a method I want to apply to other institutional documents. I also built a financial projection calculator for the mail club I am developing through Search Central Florida, and working through that tool changed how I think about the project. Modeling subscriber conversion across tiers and accounting for real costs made the planning more specific than it had been before. The data visualization exercises generally pushed me to think about datasets more often and more practically, which I did not expect going in. Anything can be a dataset! </p>
+    <p>The exercises I am most interested in continuing are the ones connected to data analysis and visualization. Treating the Federal Trade Commission complaints as a text dataset and building a term explorer to compare how harm gets framed across cases gave me a method I want to apply to other institutional documents. I also built a financial projection calculator for the mail club I am developing through Search Central Florida, and working through that tool changed how I think about the project. Modeling subscriber conversion across tiers and accounting for real costs made the planning more specific than it had been before. The data visualization exercises generally pushed me to think about datasets more often and more practically, which I did not expect going in. Anything can be a dataset!</p>
 
     <p>Search Central Florida is where most of my future critical making will happen. The platform is focused on local arts, culture, and small businesses in Central Florida, and a lot of the work this semester connected directly to that. The business closure map was an extension of what SCF already does, and the Main Streets interface was an attempt to make the institutional side of the city more readable to people who already care about its neighborhoods. What I want to build going forward are tools that serve that same purpose: maps that surface patterns, calculators that help small businesses and artists plan, and eventually more interactive features around the mail club. Costanza-Chock's framing around design justice is the idea I am carrying out of this course most directly. Centering the people most affected by a design is not a secondary consideration; it is the purpose of the work. Critical making gives me a clearer vocabulary and a set of methods for doing that more deliberately through my own pursuits.</p>
 
   </article>
-</div><!-- end reflection tab -->
+</div>
 
 <footer>
   <p>Critical Making in the Humanities &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; University of Central Florida</p>
