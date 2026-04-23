@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Critical Making — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #fff;
+      color: #000;
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ── MASTHEAD ── */
+    .masthead {
+      padding: 2.5rem 3rem 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #888;
+      line-height: 2;
+    }
+    .meta.right { text-align: right; }
+
+    .title { text-align: center; }
+    .title h1 {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .title .sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #888;
+      margin-top: 0.5rem;
+    }
+
+    .rule-heavy { grid-column: 1/-1; height: 3px; background: #000; margin-top: 1.25rem; }
+    .rule-thin  { grid-column: 1/-1; height: 1px; background: #000; margin-top: 3px; }
+
+    /* ── TAB NAV ── */
+    .tab-nav {
+      display: flex;
+      border-bottom: 1px solid #000;
+      padding: 0 3rem;
+      gap: 0;
+    }
+
+    .tab-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      border-right: 1px solid #000;
+      padding: 0.85rem 1.75rem;
+      cursor: pointer;
+      color: #888;
+      transition: background 0.12s, color 0.12s;
+      position: relative;
+      bottom: -1px;
+    }
+
+    .tab-btn:first-child { border-left: 1px solid #000; }
+
+    .tab-btn:hover { color: #000; }
+
+    .tab-btn.active {
+      color: #000;
+      background: #fff;
+      border-bottom: 1px solid #fff;
+      font-weight: 500;
+    }
+
+    /* ── TAB PANELS ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── PORTFOLIO PANEL ── */
+
+    /* Lede */
+    .lede {
+      padding: 2.5rem 3rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2.5rem;
+      border-bottom: 1px solid #000;
+      align-items: start;
+    }
+
+    .lede-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      max-width: 68ch;
+    }
+
+    .lede-text p + p { margin-top: 0.9rem; }
+
+    .toc { border-left: 1px solid #000; padding-left: 1.5rem; }
+    .toc h3 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.75rem;
+    }
+    .toc a {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #000;
+      text-decoration: none;
+      padding: 0.28rem 0;
+      border-bottom: 1px dotted #ccc;
+      transition: background 0.12s, color 0.12s, padding 0.12s;
+    }
+    .toc a:hover {
+      background: #000;
+      color: #fff;
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+      margin: 0 -0.35rem;
+    }
+    .toc a span { color: #bbb; font-size: 0.6rem; }
+    .toc a:hover span { color: #aaa; }
+
+    /* Cards */
+    .card-grid {
+      padding: 2.5rem 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      border: 1px solid #000;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+    }
+
+    .card-header {
+      padding: 1.5rem 1.75rem 1.25rem;
+      border-bottom: 3px solid #000;
+    }
+
+    .card-week {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.45rem;
+    }
+
+    .card-title {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .card-subtitle {
+      font-family: 'Newsreader', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.25rem;
+      line-height: 1.3;
+    }
+
+    .card-quote {
+      padding: 1.1rem 1.75rem;
+      border-bottom: 1px solid #e0e0e0;
+      background: #f7f7f7;
+    }
+
+    .card-quote p {
+      font-style: italic;
+      font-size: 0.86rem;
+      line-height: 1.65;
+      color: #333;
+    }
+
+    .card-quote cite {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-style: normal;
+      font-size: 0.52rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #999;
+      margin-top: 0.45rem;
+    }
+
+    .card-body {
+      padding: 1.5rem 1.75rem;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .card-body p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #111;
+    }
+
+    .card-body p + p { margin-top: 0.75rem; }
+    .card-body em { font-style: italic; }
+
+    .card-footer {
+      padding: 1rem 1.75rem;
+      background: #f7f7f7;
+    }
+
+    .card-footer-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .tool {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid #000;
+      padding: 0.18rem 0.55rem;
+      white-space: nowrap;
+    }
+
+    /* ── REFLECTION PANEL ── */
+    .reflection {
+      max-width: 72ch;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+    }
+
+    .reflection h2 {
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      border-bottom: 3px solid #000;
+      padding-bottom: 0.6rem;
+      margin: 2.5rem 0 1.25rem;
+    }
+
+    .reflection h2:first-of-type { margin-top: 0; }
+
+    .reflection p {
+      font-size: 1rem;
+      line-height: 2;
+      color: #111;
+    }
+
+    .reflection p + p { margin-top: 1.5rem; }
+
+    .reflection em { font-style: italic; }
+
+    .reflection-intro {
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      border-left: 3px solid #000;
+      padding-left: 1.25rem;
+      margin-bottom: 2.5rem;
+      color: #222;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 3px solid #000;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .masthead         { grid-template-columns: 1fr; padding: 1.5rem; }
+      .meta.right       { text-align: left; }
+      .tab-nav          { padding: 0 1.5rem; }
+      .lede             { grid-template-columns: 1fr; padding: 1.5rem; }
+      .lede-text        { border: none; }
+      .toc              { border-left: none; padding-left: 0; border-top: 1px solid #000; padding-top: 1rem; }
+      .card-grid        { padding: 1.5rem; grid-template-columns: 1fr; gap: 1rem; }
+      .reflection       { padding: 2rem 1.5rem 3rem; }
+      footer            { flex-direction: column; gap: 0.25rem; padding: 1rem 1.5rem; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="meta">
+    <div>MA Technical Communication</div>
+    <div>Critical Making in the Humanities</div>
+    <div>Spring 2026</div>
+  </div>
+  <div class="title">
+    <h1>Critical Making</h1>
+    <div class="sub">A Semester of Making &nbsp;·&nbsp; Zachary Miller</div>
+  </div>
+  <div class="meta right">
+    <div>Portfolio &amp; Reflection</div>
+    <div>University of Central Florida</div>
+    <div>April 2026</div>
+  </div>
+  <div class="rule-heavy"></div>
+  <div class="rule-thin"></div>
+</div>
+
+<!-- TAB NAV -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('portfolio', this)">Portfolio</button>
+  <button class="tab-btn" onclick="switchTab('reflection', this)">Final Reflection</button>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PORTFOLIO TAB
+     ══════════════════════════════════════ -->
+<div id="portfolio" class="tab-panel active">
+
+  <!-- LEDE -->
+  <section class="lede">
+    <div class="lede-text">
+      <p>This portfolio documents eight exercises completed across a semester of critical making, a course that asked what it means to construct an argument not just in prose but through process, material, and form. The work spans 35mm film photography and clay sculpture, GIF-making, interactive maps, hypertext narrative, game design, generative grammar, and data visualization. Each exercise was an attempt to take a theoretical frame seriously enough to build something from it.</p>
+      <p>This collection of projects repesents the work I have put towards critical making this semeseter. I appreciate the verisitility of critical making and the hyperfocus on process. I've learned that intent is everything and genuinley feel that the tools and processes I worked with will continue to serve me throughout my creative pursuits. Please enjoy a culmination of the exersizes I completed throughout this course and my final reflection all packaged in this inteface I collaborated with Anthropic's Claude to create.</p>
+    </div>
+    <nav class="toc">
+      <h3>Contents</h3>
+      <a href="#week1"><span>01</span> The Analog Selfie</a>
+      <a href="#week3"><span>03</span> GIF as Form</a>
+      <a href="#week4"><span>04</span> Critical Mapping</a>
+      <a href="#week5"><span>05</span> Still Open</a>
+      <a href="#week6"><span>06</span> Bitsy Museum</a>
+      <a href="#week7"><span>07</span> Disclosure Bot</a>
+      <a href="#week8"><span>08</span> Distant Reading</a>
+      <a href="#week9"><span>09</span> Main Streets</a>
+    </nav>
+  </section>
+
+  <!-- CARDS -->
+  <section class="card-grid">
+
+    <!-- 01 -->
+    <article class="card" id="week1">
+      <div class="card-header">
+        <div class="card-week">Week 01 &nbsp;·&nbsp; Digital Alterations &amp; Ceramic Sculpture</div>
+        <div class="card-title">The Analog Selfie</div>
+        <div class="card-subtitle">Unflattening Through Film and Clay</div>
+      </div>
+      <div class="card-quote">
+        <p>"The making of images by hand is at risk of being rapidly devalued. In turn, this devaluing makes its role in the humanities classroom more critical than ever."</p>
+        <cite>— Johnson &amp; Salter, p. 25</cite>
+      </div>
+      <div class="card-body">
+        <p>The exercise began with a 35mm self-portrait taken in Savannah on my Canon AE-1, using the self-timer with manual focus set on the chair I would occupy, with ten seconds of uncertainty before the shutter clicked. I chose film deliberately. Without instant review, the image carries the moment rather than a series of corrections. When I uploaded it to Microsoft Copilot and began iterating prompts, that gap between capture and output became the argument.</p>
+        <p>Each AI iteration aged the subject. By the end, Copilot had placed a bird's nest inside my head. The final clay sculpture grew from that metaphor: a figure with an opening in the skull revealing three fragile eggs. The nest represents the early state of ideas: fragile, malleable, not yet self-sustaining. A snake coiling up the neck adds something Copilot never could: self-doubt as a force that shapes what we are trying to grow.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">35mm Film</span>
+          <span class="tool">Canon AE-1</span>
+          <span class="tool">Microsoft Copilot</span>
+          <span class="tool">Ceramics</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="card" id="week3">
+      <div class="card-header">
+        <div class="card-week">Week 03 &nbsp;·&nbsp; GIF Making</div>
+        <div class="card-title">GIF as Form</div>
+        <div class="card-subtitle">Procedural Loops and Cultural Expression</div>
+      </div>
+      <div class="card-quote">
+        <p>"GIFs as a research artifact opens the door to thinking about what motion might add to conveying complex ideas."</p>
+        <cite>— Johnson &amp; Salter, p. 77</cite>
+      </div>
+      <div class="card-body">
+        <p>For this week I made GIFs in two registers at once. The first was procedural: screen recordings of Huron Research Suite workflows for an IRB workshop on navigating the process for HUT scholars, short loops that reinforce a specific interface task without requiring a full video. The second was cultural: GIFs made for my Instagram account using Canva mockups exported through PowerPoint, uploaded to GIPHY so they'd be searchable directly from Instagram comments.</p>
+        <p>The pipeline involved too many steps, but that friction was useful. What I kept coming back to was how much weight GIFs carry for how small they are. They're borrowed, remixed, and repurposed constantly. The comments section on Instagram runs largely on GIF-as-gesture, a unit of communication that operates more like reflex than language. What I was trying to do was take that logic and use it as a call to action: something searchable and mine rather than borrowed from someone else's media archive.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">Canva</span>
+          <span class="tool">PowerPoint</span>
+          <span class="tool">GIPHY</span>
+          <span class="tool">Instagram</span>
+          <span class="tool">Huron Research Suite</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="card" id="week4">
+      <div class="card-header">
+        <div class="card-week">Week 04 &nbsp;·&nbsp; Critical Mapping</div>
+        <div class="card-title">The Closure Map</div>
+        <div class="card-subtitle">Four Years of Orlando Losses</div>
+      </div>
+      <div class="card-quote">
+        <p>"Mapping events, businesses, houses, and more can help people more easily notice patterns and trends across a space too large to observe in person or too difficult to visualize as being connected by location."</p>
+        <cite>— Johnson &amp; Salter, p. 96</cite>
+      </div>
+      <div class="card-body">
+        <p>This map started with a question about data and ended with something that made me feel things. I built an interactive visualization of Orlando-area business closures using Orlando Weekly's annual roundups from 2022–2025, color-coded by year, filterable, with each pin carrying the original language the writers used to mark each loss.</p>
+        <p>The process involved a lot of back and forth with Claude, identifying reliable sources, compiling a CSV, attempting a KML export for Google Earth, then scrapping that approach when the import failed and rebuilding as a web-based map. The decision to preserve Orlando Weekly's text was deliberate: the map reflects a trusted local voice rather than sanitized dataset entries. Four years of restaurants, shops, and institutions plotted as dots anyone can scroll through. The pattern becomes visible. The argument makes itself.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">Claude AI</span>
+          <span class="tool">Leaflet.js</span>
+          <span class="tool">KML / Google Earth</span>
+          <span class="tool">CSV</span>
+          <span class="tool">Orlando Weekly</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 -->
+    <article class="card" id="week5">
+      <div class="card-header">
+        <div class="card-week">Week 05 &nbsp;·&nbsp; Twine / Hypertext Narrative</div>
+        <div class="card-title">Still Open</div>
+        <div class="card-subtitle">A Branching Business Survival Narrative, 2029</div>
+      </div>
+      <div class="card-quote">
+        <p>"Hypertext has the capacity to explore the non-linear, able to defy the ordering principles of a page."</p>
+        <cite>— Johnson &amp; Salter, p. 117</cite>
+      </div>
+      <div class="card-body">
+        <p><em>Still Open</em> simulates running a small business in a near-future 2029 where the forces already shaping independent operators, platform fee consolidation, immigration enforcement, import tariffs, and political pressure, have solidified into explicit policy. Players choose one of four business types and navigate three decision points built around a comply-or-resist logic that accumulates toward one of four endings.</p>
+        <p>Working with Claude across several sessions, I organized 47 passage nodes across four branching narratives, each following an identical skeleton so the underlying argument stays legible regardless of which business you choose. The Windows 95 interface, beveled chrome, teal desktop, raised push-button choices, fixed taskbar, wasn't nostalgia. It was a framing device. The bureaucratic aesthetic positions the player's choices as something being managed by an interface they didn't design and can't escape.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">Twine (Harlowe)</span>
+          <span class="tool">CSS</span>
+          <span class="tool">Claude AI</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 06 -->
+    <article class="card" id="week6">
+      <div class="card-header">
+        <div class="card-week">Week 06 &nbsp;·&nbsp; Bitsy Game</div>
+        <div class="card-title">A Trip to the Museum</div>
+        <div class="card-subtitle">Constraint as Argument</div>
+      </div>
+      <div class="card-quote">
+        <p>"The affordances and limitations of any platform will serve to inform the design process, and Bitsy is one that we both continually choose to assign because of its constraints."</p>
+        <cite>— Johnson &amp; Salter, p. 144</cite>
+      </div>
+      <div class="card-body">
+        <p>The game takes place across three rooms: a building exterior, an interior full of photographic items, and a long tunnel leading to a final room. The player takes a picture at the end and realizes they've been walking through someone's house the entire time. The final sprite yells. The game ends. I approached the whole thing as an experiment with the interface rather than a fully developed narrative.</p>
+        <p>The game is intentionally comedic. The central joke is that the player assumes they are entering a museum and the hints along the way slowly subvert that expectation. What I find most interesting about Bitsy is how the simplicity of sprite interaction can still produce variable outcomes and meaningful dialog. On the surface, Bitsy games look similar because the interface produces a recognizable aesthetic, but underneath that shared skin the meaning, structure, and experience can be completely different.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">Bitsy</span>
+          <span class="tool">Sprite Design</span>
+          <span class="tool">Dialog Scripting</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 07 -->
+    <article class="card" id="week7">
+      <div class="card-header">
+        <div class="card-week">Week 07 &nbsp;·&nbsp; Tracery Grammar</div>
+        <div class="card-title">Disclosure Bot</div>
+        <div class="card-subtitle">Satire as Systems Critique</div>
+      </div>
+      <div class="card-quote">
+        <p>"Technological training perpetuated and amplified structural oppression, digital inclusion did not resolve the discrimination."</p>
+        <cite>— Sarkar, 2021</cite>
+      </div>
+      <div class="card-body">
+        <p>I wanted to create a grammar that generates alternating data breach disclosure messages based on a set of variables. The satirical approach was partially inspired by designer Soren Iverson, whose work involves taking common interfaces and applying dystopian or absurd characteristics that reveal the uncomfortable logic already embedded in those interfaces. I started in Crystal Code Palace to understand Tracery, then developed the data breach concept from there.</p>
+        <p>The final product uses the visual language of redacted government documents to frame the generated notices. The redaction aesthetic is the argument. A breach disclosure presents itself as remedy while doing almost nothing to address why the breach happened. Sarkar's observation that technological fixes tend to perpetuate the structures they claim to address mapped onto this exactly, the grammar makes that gap visible by making it legible, and funny.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">Tracery</span>
+          <span class="tool">JavaScript</span>
+          <span class="tool">Claude AI</span>
+          <span class="tool">Crystal Code Palace</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 08 -->
+    <article class="card" id="week8">
+      <div class="card-header">
+        <div class="card-week">Week 08 &nbsp;·&nbsp; Distant Reading &amp; Data Viz</div>
+        <div class="card-title">FTC Complaint Explorer</div>
+        <div class="card-subtitle">How Legal Language Constructs Harm</div>
+      </div>
+      <div class="card-quote">
+        <p>"Visualization should move away from objective presentation in favor of designs that facilitate pathways to multiple truths."</p>
+        <cite>— D'Ignazio &amp; Klein, 2016</cite>
+      </div>
+      <div class="card-body">
+        <p>I did a distant reading of three FTC consumer protection complaints, Vivint Smart Home (2021), Cognosphere/Genshin Impact (2025), and Roca Labs (2015), spanning a decade and constructing harm in very different ways. In the Cognosphere complaint, "children" appears 75 times, almost every instance flagging a legal threshold under COPPA rather than naming a human concern. That became the anchor term for the whole analysis.</p>
+        <p>I worked with Claude to build an interactive term explorer showing all three cases in parallel rather than collapsing them into a single finding. From there I applied the same analytical approach to something personal: a financial projection calculator for the mail club I'm developing for Search Central Florida, modeling subscriber conversion across three price tiers and accounting for Patreon fees, printing, postage, and artist costs.</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">Voyant Tools</span>
+          <span class="tool">D3.js</span>
+          <span class="tool">Claude AI</span>
+          <span class="tool">FTC Legal Library</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- 09 -->
+    <article class="card" id="week9">
+      <div class="card-header">
+        <div class="card-week">Week 09 &nbsp;·&nbsp; Web Interface &amp; GitHub</div>
+        <div class="card-title">Orlando Main Streets</div>
+        <div class="card-subtitle">Making Local Infrastructure Legible</div>
+      </div>
+      <div class="card-quote">
+        <p>"Design justice urges us to recognize that we constantly make intentional decisions about which users we choose to center, and holds us accountable for those choices."</p>
+        <cite>— Costanza-Chock, p. 56</cite>
+      </div>
+      <div class="card-body">
+        <p>Orlando Main Streets encompasses twelve commercial districts, and this project was an attempt to make all of them browsable through a single interface. Orlando Main Streets has been running since 2008 and the districts it covers, Milk District, Mills 50, Ivanhoe Village, and Curry Ford West, are places people already love and frequently visit. The program is largely invisible to them.</p>
+        <p>The process involved manually downloading each district map from the City of Orlando's website, uploading them to a GitHub repository, and working with Claude to build a browsable interface. When Claude's fixes compounded the problem rather than solving it, I scrapped the approach entirely and restarted using only HTML, CSS, and JavaScript. That friction surfaced a question I'm still sitting with: I directed the code, but can I say I authored it?</p>
+      </div>
+      <div class="card-footer">
+        <div class="card-footer-label">Tools &amp; Methods</div>
+        <div class="tools">
+          <span class="tool">HTML / CSS / JS</span>
+          <span class="tool">GitHub Pages</span>
+          <span class="tool">Claude AI</span>
+        </div>
+      </div>
+    </article>
+
+  </section>
+</div><!-- end portfolio tab -->
+
+<!-- ══════════════════════════════════════
+     REFLECTION TAB
+     ══════════════════════════════════════ -->
+<div id="reflection" class="tab-panel">
+  <article class="reflection">
+
+    <h2>Critical Making: A Final Reflection</h2>
+
+    <p>I came into this course with a specific skepticism about AI tools, not a blanket rejection but a concern that relying on them too heavily produces work that stops being yours somewhere in the process. That tension did not go away over the semester. Some of the exercises sharpened it. What I found is that the tools I was most engaged with were the ones that expanded what I could analyze or visualize, not the ones that generated content on my behalf. There is a real difference between using Claude to help build an interactive map of Orlando business closures and using it to write the descriptions that appear on that map. The first gives me a capability I did not have before. The second starts to replace the judgment the work requires. I am glad to have experienced working with these tools and I often wonder if this class I one of the most important that I have taken. Time will tell.</p>
+
+    <p>The Main Streets project illustrated just how important intent is when working with AI coding agents. When Claude's suggested fixes made the problem worse rather than better, I had to understand enough of what was happening to redirect it and then verify that what came back actually worked. That process required me to stay engaged with the technical decisions rather than defer to the tool. I think that is the more honest version of working with AI: not avoiding it, but staying close enough to the problem that you can tell when the output is wrong.</p>
+
+    <p>The exercises I am most interested in continuing are the ones connected to data analysis and visualization. Treating the Federal Trade Commission complaints as a text dataset and building a term explorer to compare how harm gets framed across cases gave me a method I want to apply to other institutional documents. I also built a financial projection calculator for the mail club I am developing through Search Central Florida, and working through that tool changed how I think about the project. Modeling subscriber conversion across tiers and accounting for real costs made the planning more specific than it had been before. The data visualization exercises generally pushed me to think about datasets more often and more practically, which I did not expect going in. Anything can be a dataset! </p>
+
+    <p>Search Central Florida is where most of my future critical making will happen. The platform is focused on local arts, culture, and small businesses in Central Florida, and a lot of the work this semester connected directly to that. The business closure map was an extension of what SCF already does, and the Main Streets interface was an attempt to make the institutional side of the city more readable to people who already care about its neighborhoods. What I want to build going forward are tools that serve that same purpose: maps that surface patterns, calculators that help small businesses and artists plan, and eventually more interactive features around the mail club. Costanza-Chock's framing around design justice is the idea I am carrying out of this course most directly. Centering the people most affected by a design is not a secondary consideration; it is the purpose of the work. Critical making gives me a clearer vocabulary and a set of methods for doing that more deliberately through my own pursuits.</p>
+
+  </article>
+</div><!-- end reflection tab -->
+
+<footer>
+  <p>Critical Making in the Humanities &nbsp;·&nbsp; Spring 2026 &nbsp;·&nbsp; University of Central Florida</p>
+  <p>Zachary &nbsp;·&nbsp; Final Portfolio</p>
+</footer>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
