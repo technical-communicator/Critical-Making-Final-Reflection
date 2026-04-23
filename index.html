@@ -9,7 +9,11 @@
   <style>
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
 
     body {
       background: #fff;
@@ -17,9 +21,10 @@
       font-family: 'Newsreader', Georgia, serif;
       font-size: 16px;
       line-height: 1.7;
-      overflow-x: hidden;
-      max-width: 1400px;
+      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
+      overflow-x: hidden;
     }
 
     /* ── MASTHEAD ── */
